@@ -1,0 +1,257 @@
+SQL exercises
+
+The database scheme consists of four tables:
+Product(maker, model, type)
+PC(code, model, speed, ram, hd, cd, price)
+Laptop(code, model, speed, ram, hd, screen, price)
+Printer(code, model, color, type, price)
+The Product table contains data on the maker, model number, and type of product ('PC', 'Laptop', or 'Printer'). It is assumed that model numbers in the Product table are unique for all makers and product types. Each personal computer in the PC table is unambiguously identified by a unique code, and is additionally characterized by its model (foreign key referring to the Product table), processor speed (in MHz) – speed field, RAM capacity (in Mb) - ram, hard disk drive capacity (in Gb) – hd, CD-ROM speed (e.g, '4x') - cd, and its price. The Laptop table is similar to the PC table, except that instead of the CD-ROM speed, it contains the screen size (in inches) – screen. For each printer model in the Printer table, its output type (‘y’ for color and ‘n’ for monochrome) – color field, printing technology ('Laser', 'Jet', or 'Matrix') – type, and price are specified.
+
+=====
+Find the model number, speed and hard drive capacity for all the PCs with prices below $500.
+Result set: model, speed, hd.
+*****
+SELECT model, speed, hd
+from pc
+WHERE price <500
+
+=====
+List all printer makers. Result set: maker.
+*****
+SELECT distinct maker
+from Product
+where type = 'Printer'
+
+=====
+Find the model number, RAM and screen size of the laptops with prices over $1000.
+*****
+SELECT model number, RAM, screen size
+from Laptop
+where price > 1000
+
+=====
+Find all records from the Printer table containing data about color printers.
+*****
+SELECT ALL code, model, color, type, price
+from Printer
+where color = 'y'
+
+=====
+Find the model number, speed and hard drive capacity of PCs cheaper than $600 having a 12x or a 24x CD drive.
+*****
+SELECT model number, speed, hd
+from PC
+WHERE price <600 
+and (cd ='12x' or cd='24x')
+
+=====
+For each maker producing laptops with a hard drive capacity of 10 Gb or higher, find the speed of such laptops. Result set: maker, speed.
+*****
+SELECT DISTINCT maker, speed
+from laptop a, Product b
+WHERE a.model = b.model
+and a.hd >=10
+
+=====
+Get the models and prices for all commercially available products (of any type) produced by maker B.
+*****
+SELECT a.model, price
+from Product a, PC b 
+WHERE a.model=b.model
+and maker='B'
+UNION
+SELECT a.model, price
+from product a, Laptop c
+WHERE a.model=c.model
+and maker='B'
+UNION
+SELECT a.model, price
+from Product a, Printer d
+where a.model=d.model
+and maker ='B'
+
+=====
+Find the makers producing PCs but not laptops.
+*****
+SELECT DISTINCT product.maker
+from product
+WHERE product.type='PC' and
+product.maker not in (
+SELECT product.maker
+from product
+WHERE product.type ='Laptop')
+
+=====
+Find the makers of PCs with a processor speed of 450 MHz or more. Result set: maker.
+*****
+SELECT DISTINCT a.maker
+from Product a, PC b
+WHERE a.model=b.model 
+and b.speed>=450
+
+=====
+Find the printer models having the highest price. Result set: model, price.
+*****
+SELECT model, price
+from Printer
+WHERE price = (SELECT MAX(price)
+FROM printer)
+
+=====
+Find out the average speed of PCs.
+*****
+SELECT AVG(speed)
+from PC
+
+=====
+Find out the average speed of the laptops priced over $1000.
+*****
+SELECT AVG(speed)
+from laptop
+WHERE price>1000
+
+=====
+Find out the average speed of the PCs produced by maker A.
+*****
+SELECT sum(pc.speed) / count(*)
+from pc
+where pc.model in (select product.model from product
+where product.maker='A')
+
+=====
+Get hard drive capacities that are identical for two or more PCs.
+Result set: hd.
+*****
+SELECT distinct hd 
+from pc
+where exists(select 'x' from pc p
+where p.code <> pc.code
+and p.hd = pc.hd)
+
+=====
+Get pairs of PC models with identical speeds and the same RAM capacity. Each resulting pair should be displayed only once, i.e. (i, j) but not (j, i).
+Result set: model with the bigger number, model with the smaller number, speed, and RAM.
+*****
+SELECT DISTINCT a.model, b.model, a.speed, a.ram
+from PC a, PC b
+WHERE a.model > b.model
+and a.speed = b.speed
+and a.ram = b.ram
+
+=====
+Get the laptop models that have a speed smaller than the speed of any PC.
+Result set: type, model, speed.
+*****
+SELECT DISTINCT b.type, a.model, a.speed
+from laptop a, product b
+WHERE speed < ALL (SELECT speed FROM PC)
+AND a.model=b.model
+
+=====
+Find the makers of the cheapest color printers.
+Result set: maker, price.
+*****
+SELECT DISTINCT product.maker, printer.price
+from product, printer
+WHERE product.model = printer.model
+and printer.color = 'Y'
+and printer.price = (select min(p.price)
+from printer p
+where p.color = 'Y')
+
+=====
+For each maker having models in the Laptop table, find out the average screen size of the laptops he produces.
+Result set: maker, average screen size.
+*****
+SELECT product.maker, sum(laptop.screen) / count(laptop.model)
+from product, laptop
+WHERE product.type ='Laptop'
+and product.model = laptop.model
+group by product.maker
+
+=====
+Find the makers producing at least three distinct models of PCs.
+Result set: maker, number of PC models.
+*****
+SELECT product.maker, count(*)
+from product
+WHERE product.type ='PC'
+group by product.maker
+having count(*) >= 3
+
+=====
+Find out the maximum PC price for each maker having models in the PC table. Result set: maker, maximum price.
+*****
+SELECT product.maker, max(pc.price)
+from product, pc
+WHERE product.model = pc.model
+and product.type ='PC'
+group by product.maker
+
+=====
+For each value of PC speed that exceeds 600 MHz, find out the average price of PCs with identical speeds.
+Result set: speed, average price.
+*****
+SELECT speed, AVG(price)
+from pc
+group by pc.speed
+having (speed>600)
+
+=====
+Get the makers producing both PCs having a speed of 750 MHz or higher and laptops with a speed of 750 MHz or higher.
+Result set: maker
+*****
+SELECT distinct product.maker
+from product, pc
+where product.model = pc.model
+and product.type ='PC'
+and pc.speed >=750
+and exists(select 'x' from laptop, product p
+where p.model = laptop.model
+and p.type ='Laptop'
+and p.maker = product.maker
+and laptop.speed >=750)
+
+=====
+List the models of any type having the highest price of all products present in the database.
+*****
+SELECT distinct product.model
+from product, pc, laptop, printer
+WHERE /*product.model in(pc.model, laptop.model, printer.model)
+and*/ pc.price = (select max(pcc.price) from pc pcc)
+and laptop.price = (select max(l.price) from laptop l)
+and printer.price = (select max(pr.price) from printer pr)
+and (
+(pc.price >= laptop.price and pc.price >= printer.price
+and product.model = pc.model)
+OR
+(laptop.price >= pc.price and laptop.price >= printer.price
+and product.model = laptop.model)
+OR
+(printer.price >= laptop.price and printer.price >= pc.price
+and product.model = printer.model)
+)
+
+=====
+Find the printer makers also producing PCs with the lowest RAM capacity and the highest processor speed of all PCs having the lowest RAM capacity.
+Result set: maker.
+*****
+SELECT distinct product.maker
+from product, pc
+WHERE product.type = 'PC'
+and product.model = pc.model
+and pc.ram = (select min(pcc.ram) from pc pcc where pcc.ram <> 0)
+and pc.speed = (select max(pccc.speed) from pc pccc
+where pccc.ram = (select min(pcc.ram) from pc pcc where pcc.ram <> 0))
+and exists(select 'x' from product p
+where p.type = 'Printer'
+and p.maker = product.maker)
+
+
+
+
+
+
+
+
+
