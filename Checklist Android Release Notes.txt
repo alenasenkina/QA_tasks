@@ -1,0 +1,43 @@
+Android Release Checklist
+
+Before uploading your app to the Play Store, it is important to double check the points below to ensure that the integration is successful.
+
+1. Are devices registering with Sailthru Mobile?
+The best way to test if your SDK integration has been successful is to Navigate to Settings, Logs, Device Log.
+
+In this section you will see a list of devices that have registered against this app. If you have recently opened the app, then your device will likely be at the top of the list. If your device appears there, then your integration is likely successful.
+
+2. Are devices receiving Push Tokens?
+To confirm that your app is receiving Push Tokens, Navigate to Settings, Logs, Device Log. Click on any device in the device list, and confirm there is a token in the "Push Token" field.
+
+3. Are you receiving Custom Events and User Attributes?
+Check that custom events are appearing by navigating to Analytics, Events. Events should then appear in the dropdown list. To makes sure your Attributes are appearing, try create an Audience by navigating to Audiences, Create Audience. Your user attributes should appear in the Audience Builder.
+
+4. Have you added the FCM key to your app on Sailthru Mobile?
+Sailthru Mobile requires a FCM key from the Firebase Console in order to authorize Sailthru Mobile with your project and send push messages to devices running your app.
+
+Instructions on setting up a Firebase Console project and obtaining a FCM key can be found Push Notifications for Android.
+
+5. Have you integrated and customized the Message Stream?
+A Message stream needs to be integrated into your app, and accessible via a button. It is strongly recommended that you also put an 'unread' label/badge as an overlay, to ensure that users are aware there is new content in the Message Stream.
+
+*****
+Before you publish apps on Google Play, it's important to make sure that they meet the basic quality expectations for all Android apps, on all of the devices that you are targeting. You can check your app's quality by setting up a test environment and testing the app against a short set of quality criteria that applies to all apps. For complete information, see the Core App Quality guidelines.
+
+- Understand the Publishing Process
+- Test for Quality according to  the Core App Quality guidelines
+- Determine your App’s Content Rating
+- Determine Country Distribution
+- Confirm the App's Platform and Screen Compatibility Ranges
+- Confirm the App's Overall Size
+- Decide Whether your App will be Free or Priced
+- Consider using In-app Billing or Android Pay
+- Set Prices for your Products
+- Start Localization
+- Prepare Promotional Graphics, Screenshots, and Videos
+- Build and Upload the Release-ready APK
+- Plan a Beta Release
+- Complete the Apps’ Store Listing
+- Use Google Play Badges and Links in your Promotional Campaigns
+- Final Checks and Publishing
+- Support Users after Launch

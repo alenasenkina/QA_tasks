@@ -1,0 +1,105 @@
+The current version of iOS is iOS 14.7.1, which was released to the public on July 26, 2021.
+iOS 14.7.1 follows iOS 14.7, which was released to the public on July 19, bringing a number of new features including MagSafe Battery Pack Support, the ability to merge two Apple Cards, HomePod timer management, expanded Air Quality information, updates to the Podcasts app, and more.
+
+Before submitting your application to the Apple App Store, check that you have:
+- Your application name chosen.
+- An application description written. Check that the word “beta” doesn’t appear in text within your app and in your descriptive text. Apple dislikes having this word used in finished products
+- Primary and secondary categories chosen
+- Subcategories selected
+- The copyright attribution decided
+- An app rating chosen
+- Keywords identified
+- The SKU number created
+- An application website URL working
+- Screenshots prepared
+- The support website URL working. Your support website should resolve at the URL you supply. If it isn’t available, your app is likely to be rejected
+- A support Email Address configured
+- The End User License Agreement written, if required
+- Pricing decided
+- The available date chosen
+- Distribution territories selected
+- Large App Icon 512px x 512px created. Ensure that the 512px x 512px image you’re preparing to submit with your IPA file matches the icon images compiled into your application
+- Your application compiled with an Apple Distribution Certificate and a Distribution – App Store Provisioning profile
+- Your application IPA file correctly compiled and bug free. Test on your iOS device
+
+
+Before submitting your application to the Android Market, check that you have:
+- Your application title chosen
+- An application description written
+- Two screenshots (maximum of 8) captured
+- High resolution application icon 512px x 512px created. Ensure that the 512px x 512px image you’re preparing to submit with your APK file matches the icon images compiled into your application
+- Your application content rating chosen
+- Category selected
+- Pricing decided
+- Distribution locations selected
+- An optional promotional graphic prepared
+- An optional feature graphic created
+- An optional promotional video link setup
+- The support website URL working
+- Ensure the P12 certificate you compile your app with is valid for a minimum of 25 years from the date you submit the app
+- Ensure your application APK file is correctly compiled for device release and is bug free. Test on your Android device
+
+Before uploading your app to the Play Store, it is important to double check the points below to ensure that the integration is successful.
+1. INTEGRATION – ARE DEVICES REGISTERING WITH SAILTHRU MOBILE?
+The best way to test if your SDK integration has been successful, is to navigate to Settings, Developer.
+In this section you will see a list of devices that have registered against this app. If you have recently opened the app, then your device will likely be at the top of the list. If your device appears there, and has a Push Token, then your integration is likely successful.
+
+2. ARE DEVICES RECEIVING PUSH TOKENS?
+To confirm that your app is receiving Push Tokens, Navigate to Settings, Developer. Click on any device in the device list, and confirm there is a token in the "Push Token" field.
+
+Not receiving Push Tokens?
+Did you create your App Store Provisioning Profile after setting up Push on the App ID? It is extremely important that the App Store provisioning profile is created or regenerated after setting up Push on the App ID.
+
+3. HAVE YOU INTEGRATED A MESSAGE STREAM?
+A Message stream needs to be integrated and accessible into your app. It is strongly recommended that you also put an 'unread' label/badge as an overlay on your Message Stream CTA, to ensure that users are aware there is new content in the Message Stream.
+
+4. Are you receiving Custom Events and User Attributes?
+Check that custom events are appearing by navigating to Analytics, Events. Events should then appear in the dropdown list. To makes sure your Attributes are appearing, try create an Audience by navigating to Audiences, Create Audience. Your user attributes should appear in the Audience Builder.
+
+5. HAVE YOU UPLOADED A DISTRIBUTION APNS CERTIFICATE TO SAILTHRU MOBILE?
+Visit the 'Developer' tab of your app, under the 'Settings' section and ensure that you have uploaded a distribution and development certificate. Instructions on how to create and upload the certificate can be found in Push Notifications for iOS.
+
+6. AFTER SUBMITTING YOUR APP TO THE APP STORE
+To be certain your App Store binary is push enabled, one completed the upload of your binary, go to the 'Binary Details' section for your latest upload. Towards the bottom of the page there should be a section called 'Entitlements'. Make sure that there is an item in this section that reads 'aps-environment: production'.
+
+BASIC CHECKLIST
+- Developer Accounts
+- Apple developer account (appstore)
+Production certificates, provisioning profile
+- Appstore
+- Appstore app name
+- Appstore subtitle name (optional)
+- Appstore app description
+Screenshots
+- 1024 X 1024 icon
+- App preview video (optional)
+Keywords
+- Categories (need to be chosen from a drop down, good if we know in advance)
+Assets
+- Proper app icon in all required resolutions as per HIG
+I use this handy Mac App
+Developer
+- Proper App Version (1.0 for first release)
+- Latest Xcode version (not beta or GM Seeds)
+
+
+NOTES & PRACTICES:
+A developer can submit the app and opt for "developer release" which means the app is not automatically made available to the public untill the developer choose to.
+
+Don't stress too much on SKU number. It can be any string (it shohuld make sense to you)
+
+choose bundle Identifier wisely
+Format: com.company.app-vertical
+eg: com.apple.pages
+
+AFTER SUBMISSION
+- App is reviewed by apple review team
+- It takes 3 hours to 7+ (working) days for app to be reviewed
+- For first time upload, it may take more than 3 days.
+APP REJECTION
+- App rejection is not a "cul-de-sac". So fix the issues and re submit
+
+Your app may be rejected due to following (popular) reasons:
+- App has a login screen but no signup page. (need to provide clarification)
+- Developers have used any private api (like giniee animation effect)
+- App crashes very often.
